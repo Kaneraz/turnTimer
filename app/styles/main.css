@@ -1,0 +1,24 @@
+.highlighted
+{
+  background-color: lightblue;
+}
+
+.bloody
+{
+  font-size: .5em;
+}
+
+.remove
+{
+  font-size: .5em;
+}
+
+.bloodied
+{
+  color: red;
+}
+
+.player
+{
+  line-height: .6;
+}
