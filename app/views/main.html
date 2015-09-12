@@ -1,11 +1,12 @@
 <div keypress-events="">
-  <form ng-submit="add()">
-    <input type="text" ng-model="addName" />
-    <input type="submit" />
+  <form ng-submit="add()" class="addNames">
+    <input type="text" class="form-control" ng-model="addName" />
+    <input type="submit" class="btn btn-default" />
   </form>
+  <timer class="timer" >{{minutes}} minute{{minutesS}}, {{seconds}} second{{secondsS}}.</timer>
   <h1 class="player" ng-class="{highlighted: $index === selected, bloodied: player.bloodied}" ng-repeat="player in players">
     <span ng-click="remove($index)" class="remove">X</span>
     <span ng-click="bloody($index)" class="bloody">B</span>
-    {{player.name}}
+    {{player.name}} - {{player.totalTime}} seconds
   </h1>
 </div>

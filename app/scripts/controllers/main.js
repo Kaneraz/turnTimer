@@ -11,6 +11,7 @@ angular.module('turnTimerApp')
   .controller('MainCtrl', function ($scope) {
     $scope.players = [];
 
+    var time = 0;
     $scope.selected = 0;
 
     var moveUp = function() {
@@ -43,7 +44,7 @@ angular.module('turnTimerApp')
 		];
 
     $scope.add = function() {
-      var name = { name: $scope.addName, bloodied: false };
+      var name = { name: $scope.addName, bloodied: false, totalTime: 0 };
       $scope.players.splice($scope.selected + 1, 0, name);
       $scope.addName = '';
       move(1);
@@ -66,13 +67,21 @@ angular.module('turnTimerApp')
 			move(direction);
       $scope.$apply();
 		};
+    
+    $scope.$on('timer-tick', function(e, args) {
+      if($scope.players[$scope.selected] !== undefined) {
+        time = args.millis;
+      }
+    });
 
     var move = function(direction) {
+      $scope.players[$scope.selected].totalTime += Math.floor(time / 1000);
       $scope.selected = ($scope.selected + direction) % $scope.players.length;
       if($scope.selected < 0)
       {
 				$scope.selected += $scope.players.length;
       }
+      $scope.$broadcast('timer-start');
     };
   })
 	.directive('keypressEvents', ['$document', '$rootScope', function($document, $rootScope) {
