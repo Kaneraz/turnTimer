@@ -10,18 +10,13 @@
 angular.module('turnTimerApp')
   .controller('MainCtrl', function ($scope) {
     $scope.players = [];
+    $scope.round = 1;
 
     var time = 0;
     $scope.selected = 0;
 
-    var moveUp = function() {
-      move(-1);
-      $scope.$apply();
-    };
-    var moveDown = function() {
-      move(1);
-      $scope.$apply();
-    };
+    var moveUp = function() {move(-1);};
+    var moveDown = function() {move(1);};
 		var swapUp = function() {swap(-1);};
 		var swapDown = function() {swap(1);};
 
@@ -47,7 +42,9 @@ angular.module('turnTimerApp')
       var name = { name: $scope.addName, bloodied: false, totalTime: 0 };
       $scope.players.splice($scope.selected + 1, 0, name);
       $scope.addName = '';
-      move(1);
+      if($scope.players.length !== 1) {
+        move(1);
+      }
     }; 
 
 		events.forEach(function(currentValue) { 
@@ -75,13 +72,19 @@ angular.module('turnTimerApp')
     });
 
     var move = function(direction) {
-      $scope.players[$scope.selected].totalTime += Math.floor(time / 1000);
-      $scope.selected = ($scope.selected + direction) % $scope.players.length;
-      if($scope.selected < 0)
-      {
+      if($scope.players[$scope.selected] !== undefined) {
+        $scope.players[$scope.selected].totalTime += Math.floor(time / 1000);
+      }
+      $scope.selected += direction;
+      if($scope.selected >= $scope.players.length) {
+        $scope.round += 1;
+        $scope.selected = 0;
+      }
+      if($scope.selected < 0) {
 				$scope.selected += $scope.players.length;
       }
       $scope.$broadcast('timer-start');
+      $scope.$apply();
     };
   })
 	.directive('keypressEvents', ['$document', '$rootScope', function($document, $rootScope) {

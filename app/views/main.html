@@ -2,6 +2,7 @@
   <form ng-submit="add()" class="addNames">
     <input type="text" class="form-control" ng-model="addName" />
     <input type="submit" class="btn btn-default" />
+    Round: {{round}}
   </form>
   <timer class="timer" >{{minutes}} minute{{minutesS}}, {{seconds}} second{{secondsS}}.</timer>
   <h1 class="player" ng-class="{highlighted: $index === selected, bloodied: player.bloodied}" ng-repeat="player in players">
